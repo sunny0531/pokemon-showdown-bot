@@ -1,0 +1,40 @@
+{
+    "configurations": [
+        {
+          "type": "python",
+          "name": "Bot1",
+          "dependsOn": [], // optional
+          "pythonInterpreterPath": "/usr/bin/python3.9", // optional
+          "file": "bot1.py", // optional
+          "module": "", // optional
+          "arguments": [],
+        },
+      {
+        "type": "python",
+        "name": "Bot2",
+        "dependsOn": [], // optional
+        "pythonInterpreterPath": "/usr/bin/python3.9", // optional
+        "file": "bot2.py", // optional
+        "module": "", // optional
+        "arguments": [],
+      },
+      {
+        "type": "python",
+        "name": "Tool", // optional
+        "dependsOn": [], // optional
+        "pythonInterpreterPath": "/usr/bin/python3.9", // optional
+        "file": "tool.py", // optional
+        "module": "", // optional
+        "arguments": [],
+      },
+      {
+        "type": "python",
+        "name": "Type", // optional
+        "dependsOn": [], // optional
+        "pythonInterpreterPath": "/usr/bin/python3.9", // optional
+        "file": "type.py", // optional
+        "module": "", // optional
+        "arguments": [],
+      }
+    ]
+}

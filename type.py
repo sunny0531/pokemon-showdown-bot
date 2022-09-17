@@ -55,9 +55,32 @@ data = {
         "ghost": 1.0, "electric": 1.0, "psychic": 1.0, "dragon": 1.0, "dark": 1.0, "bug": 0.5, "steel": 0.5,
         "fire": 0.5, "grass": 0.5, "ice": 0.5, "fairy": 0.5
     },
-    "water":{
-        "grass": 2.0, "electric": 2.0
+    "water": {
+        "grass": 2.0, "electric": 2.0, "normal": 1.0, "fighting": 1.0, "flying": 1.0, "poison": 1.0, "ground": 1.0,
+        "rock": 1.0, "bug": 1.0, "ghost": 1.0, "psychic": 1.0, "dragon": 1.0, "dark": 1.0, "fairy": 1.0, "steel": 0.5,
+        "fire": 0.5, "water": 0.5, "ice": 0.5
+    },
+    "grass": {
+        "flying": 2.0, "poison": 2.0, "bug": 2.0, "fire": 2.0, "ice": 2.0, "normal": 1.0, "fighting": 1.0, "rock": 1.0,
+        "ghost": 1.0, "steel": 1.0, "psychic": 1.0, "dragon": 1.0, "dark": 1.0, "fairy": 1.0, "ground": 0.5,
+        "water": 0.5, "grass": 0.5, "electric": 0.5
+    },
+    "electric": {
+        "ground": 2.0, "normal": 1.0, "fighting": 1.0, "poison": 1.0, "rock": 1.0, "bug": 1.0, "ghost": 1.0,
+        "fire": 1.0, "water": 1.0, "grass": 1.0, "psychic": 1.0, "ice": 1.0, "dragon": 1.0, "dark": 1.0, "fairy": 1.0,
+        "flying": 0.5, "steel": 0.5, "electric": 0.5
+
+    },
+    "psychic": {
+        "bug": 2.0, "ghost": 2.0, "dark": 2.0, "normal": 1.0, "flying": 1.0, "poison": 1.0, "ground": 1.0, "rock": 1.0,
+        "steel": 1.0, "fire": 1.0, "water": 1.0, "grass": 1.0, "electric": 1.0, "ice": 1.0, "dragon": 1.0, "fairy": 1.0
+    },
+    "ice": {
+        "fighting": 2.0, "rock": 2.0, "steel": 2.0, "fire": 2.0, "normal": 1.0, "flying": 1.0, "poison": 1.0,
+        "ground": 1.0, "bug": 1.0, "ghost": 1.0, "water": 1.0, "grass": 1.0, "electric": 1.0, "psychic": 1.0,
+        "dragon": 1.0, "dark": 1.0, "fairy": 1.0, "ice": 0.5
     }
+
 
 }
 
@@ -73,4 +96,4 @@ def power(move, target, STAB=1.5):
     return effective * float(power) * stab
 
 
-print(power(("rock", 1), ("flying", "fighting"), 1))
+print(power(("rock", 1), ("flying", "fighting")))
