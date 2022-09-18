@@ -3,7 +3,7 @@ amount=input()
 result={}
 while True:
     a=input().lower()
-    if a !="q":
+    if a !="":
         if not a.isspace():
             result[a]=float(amount)
     else:

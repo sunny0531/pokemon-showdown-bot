@@ -189,7 +189,7 @@ class Battle:
     def __init__(self):
         self.battle = {}
         self.player = {}
-        self.data = requests.get("https://play.pokemonshowdown.com/data/pokedex.json").json()
+        self.pokedex = requests.get("https://play.pokemonshowdown.com/data/pokedex.json").json()
 
     def create(self, battle):
         self.battle[battle] = {}
@@ -217,7 +217,7 @@ class Battle:
     def choose_move(self, battle, data, me):
         switch=False
         avalable_moves = []
-        max_={
+        best_move={
             "damage":0,
             "move":"",
             "target":""
@@ -235,6 +235,7 @@ class Battle:
                 for iii in self.battle[battle][self.player[battle][ii]]:
                     for move in avalable_moves:
                         opposite = self.battle[battle][self.player[battle][ii]][iii]
+                        print(self.pokedex[opposite])
                         ability=""
                         for abilitys in self.data[attacker["details"].split(", ")[0].lower().replace(" ","").translate(str.maketrans('', '', string.punctuation))]["abilities"].values():
                             if abilitys.lower().replace(" ","")==attacker["baseAbility"]:
@@ -256,21 +257,21 @@ class Battle:
                         })
                         damage=damage.json()
                         try:
-                            if max_["damage"]<max(damage["damage"]):
-                                max_={
+                            if best_move["damage"]<max(damage["damage"]):
+                                best_move={
                                     "damage":max(damage["damage"]),
                                     "target":opposite["name"],
                                     "move":move
                                 }
                                 print(damage["name"],damage["damage"])
-                                if max_["damage"]<55:
+                                if best_move["damage"]<55:
                                     switch=True
-                                elif max_["damage"]<100:
+                                elif best_move["damage"]<100:
                                     if random.randint(0,1)==0:
                                         switch=True
                         except KeyError:
-                            if max_["move"]=="":
-                                max_["move"]=random.choice(avalable_moves)
-        print(max_)
-        return (switch,max_)
+                            if best_move["move"]=="":
+                                best_move["move"]=random.choice(avalable_moves)
+        print(best_move)
+        return (switch,best_move)
 
