@@ -6,7 +6,7 @@ import random
 import time
 import re
 import string
-
+from type import power
 
 class Client:
     def __init__(self, username, password=None, address="sim.smogon.com:8000", accept_challange=True, challange=[],
@@ -37,6 +37,7 @@ class Client:
 
     async def player(self, splitted):
         battle_name = splitted[0].replace(">", "").replace("\n", "")
+
         await self.switch(splitted)
         self.battle.add_player(battle_name, splitted)
 
@@ -127,7 +128,7 @@ class Client:
         self.events[event] = func
 
     async def choose_move(self, data, room):
-
+        await asyncio.sleep(10)
         avalable_moves = []
         if data.get("wait") == True:
             await asyncio.sleep(1)
@@ -190,12 +191,13 @@ class Battle:
         self.battle = {}
         self.player = {}
         self.pokedex = requests.get("https://play.pokemonshowdown.com/data/pokedex.json").json()
-
+        self.movedex= requests.get("https://play.pokemonshowdown.com/data/moves.json").json()
     def create(self, battle):
         self.battle[battle] = {}
         self.player[battle] = {}
 
     def switch(self, battle, data):
+        print("ih")
         player_pokemon = data[0]
         id = player_pokemon.split(": ")[0]
         pokemon = player_pokemon.split(": ")[1]
@@ -224,49 +226,31 @@ class Battle:
         }
         for move in data["active"][0]["moves"]:
             if move.get("disabled") != True:
-                avalable_moves.append(move["move"])
+                avalable_moves.append(move["id"])
         attacker = None
         for i in data["side"]["pokemon"]:
             if i["active"]:
                 attacker = i
                 print(attacker)
         for ii in self.player[battle]:
-            if ii != me:
+            if ii != me and ii!="\n":
                 for iii in self.battle[battle][self.player[battle][ii]]:
                     for move in avalable_moves:
                         opposite = self.battle[battle][self.player[battle][ii]][iii]
-                        print(self.pokedex[opposite])
-                        ability=""
-                        for abilitys in self.data[attacker["details"].split(", ")[0].lower().replace(" ","").translate(str.maketrans('', '', string.punctuation))]["abilities"].values():
-                            if abilitys.lower().replace(" ","")==attacker["baseAbility"]:
-                                ability=abilitys
-                        damage = requests.post("https://calc-api.herokuapp.com/calc-api", json={
-                            "attacker": {
-                                "species": attacker["details"].split(", ")[0].lower().replace(" ","").translate(str.maketrans('', '', string.punctuation)),
-                                "ability": ability,
-                                "item": attacker["item"],
-                                "level": attacker["details"].split(", ")[1].replace("L", "")
-                            },
-                            "defender": {
-                                "species": opposite["name"].lower().replace(" ","").translate(str.maketrans('', '', string.punctuation)),
-                                "ability": random.choice(list(self.data[opposite["name"].lower().replace(" ","").translate(str.maketrans('', '', string.punctuation))]["abilities"].values())),
-                                "level": opposite["level"],
-                                "item": "leftover",
-                            },
-                            "move":move
-                        })
-                        damage=damage.json()
+                        print(self.battle[battle])
+                        opposite_type=self.pokedex[opposite["name"].lower()]["types"]
+                        result=power((self.movedex[move]["type"].lower(),self.movedex[move]["basePower"]),opposite_type)
+                        print(move,result,opposite["name"])
                         try:
-                            if best_move["damage"]<max(damage["damage"]):
+                            if best_move["damage"]<result:
                                 best_move={
-                                    "damage":max(damage["damage"]),
+                                    "damage":result,
                                     "target":opposite["name"],
                                     "move":move
                                 }
-                                print(damage["name"],damage["damage"])
                                 if best_move["damage"]<55:
                                     switch=True
-                                elif best_move["damage"]<100:
+                                elif best_move["damage"]<60:
                                     if random.randint(0,1)==0:
                                         switch=True
                         except KeyError:

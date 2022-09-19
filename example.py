@@ -1,4 +1,4 @@
-from main_rewrite import Client
+from rewrite import Client
 import asyncio
 # client = Client("", "") #username, password
 client = Client("")  # username

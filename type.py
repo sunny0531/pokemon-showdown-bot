@@ -17,7 +17,7 @@ data = {
     "flying": {
         "rock": 2.0, "electric": 2.0, "ice": 2.0, "normal": 1.0, "flying": 1.0, "poison": 1.0, "ghost": 1.0,
         "steel": 1.0, "fire": 1.0, "water": 1.0, "psychic": 1.0, "dragon": 1.0, "dark": 1.0, "fairy": 1.0,
-        "fighting": 0.5, "bug": 0.5, "grass": 0.5
+        "fighting": 0.5, "bug": 0.5, "grass": 0.5,"ground":0
     },
     "poison": {
         "ground": 2.0, "psychic": 2.0, "normal": 1.0, "flying": 1.0, "rock": 1.0, "ghost": 1.0, "steel": 1.0,
@@ -73,7 +73,8 @@ data = {
     },
     "psychic": {
         "bug": 2.0, "ghost": 2.0, "dark": 2.0, "normal": 1.0, "flying": 1.0, "poison": 1.0, "ground": 1.0, "rock": 1.0,
-        "steel": 1.0, "fire": 1.0, "water": 1.0, "grass": 1.0, "electric": 1.0, "ice": 1.0, "dragon": 1.0, "fairy": 1.0
+        "steel": 1.0, "fire": 1.0, "water": 1.0, "grass": 1.0, "electric": 1.0, "ice": 1.0, "dragon": 1.0, "fairy": 1.0,"fighting": 0.5, "psychic": 0.5
+
     },
     "ice": {
         "fighting": 2.0, "rock": 2.0, "steel": 2.0, "fire": 2.0, "normal": 1.0, "flying": 1.0, "poison": 1.0,
@@ -107,7 +108,7 @@ def power(move, target, STAB=1.5):
     effective = 1
     stab = 1.0
     for i in target:
-        effective = effective * data[i][type]
+        effective = effective * data[i.lower()][type.lower()]
     if type in target:
         stab = STAB
     return effective * float(power) * stab
